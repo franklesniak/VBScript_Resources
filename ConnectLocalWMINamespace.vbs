@@ -12,7 +12,7 @@ Function TestObjectForData(ByVal objToCheck)
     '   IsArray(objToCheck) = True And UBound(objToCheck) < 0
     ' In any of these cases, the function returns False. Otherwise, it returns True.
     '
-    ' Version: 1.1.20210107.0
+    ' Version: 1.1.20210115.0
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
@@ -55,6 +55,8 @@ Function TestObjectForData(ByVal objToCheck)
     Dim boolTestResult
     Dim boolFunctionReturn
     Dim intArrayUBound
+
+    Err.Clear
 
     boolFunctionReturn = True
 
@@ -219,7 +221,7 @@ Function NewWMIBitWidthContext(ByRef objSWbemNamedValueSetContext, ByVal intTarg
     '       ' context.
     '   End If
     '
-    ' Version: 1.0.20210110.0
+    ' Version: 1.0.20210115.0
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
@@ -249,6 +251,8 @@ Function NewWMIBitWidthContext(ByRef objSWbemNamedValueSetContext, ByVal intTarg
 
     Dim intReturnCode
     Dim objSWbemNamedValueSetTemp
+
+    Err.Clear
 
     intReturnCode = 0
 
@@ -387,7 +391,7 @@ Function ConnectLocalWMINamespace(ByRef objSWbemServicesWMINamespace, ByVal strT
     '       Next
     '   End If
     '
-    ' Version: 2.0.20210110.0
+    ' Version: 2.0.20210115.0
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
@@ -424,6 +428,8 @@ Function ConnectLocalWMINamespace(ByRef objSWbemServicesWMINamespace, ByVal strT
 
     Const wbemImpersonationLevelImpersonate = 3
     strEffectiveComputerName = "."
+
+    Err.Clear
 
     intReturnCode = 0
     
