@@ -595,8 +595,9 @@ End Function
 Function TestComputerIsMemberOfWorkgroup()
     'region FunctionMetadata ####################################################
     ' Function takes no arguments and:
-    '   Returns 0 if not a member of a workgroup (i.e., is a member of a domain)
-    '   Returns 1 if a member of a workgroup (i.e., not a member of a domain)
+    '   Returns 0 if not a member of a workgroup (i.e., is a member of an Active Directory
+    '       Domain Services [AD DS] domain, or is a domain controller)
+    '   Returns 1 if a member of a workgroup (i.e., not a member of an AD DS domain)
     '   Returns a negative number if an error occurred (i.e., unknown whether member of
     '       workgroup/domain)
     '
@@ -610,7 +611,7 @@ Function TestComputerIsMemberOfWorkgroup()
     '       ' An error occurred
     '   End If
     '
-    ' Version: 1.0.20210115.1
+    ' Version: 1.0.20210115.2
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
