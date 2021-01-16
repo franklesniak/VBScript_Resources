@@ -740,31 +740,28 @@ Function TestComputerIsPartOfADDSDomain()
     TestComputerIsPartOfADDSDomain = intFunctionReturn
 End Function
 
-Function TestConnectivityToADDSDomainController()
+Function TestBasicConnectivityToAnyADDSDomainControllerForComputersDomain()
     'region FunctionMetadata ####################################################
     ' Function takes no arguments and:
     '   Returns 1 when the system has connectivity to an Active Directory Domain Services
-    '       (AD DS) domain controller for the current user's domain
+    '       (AD DS) domain controller for the computer's AD DS domain
     '   Returns 0 if the system does not have connectivity to an AD DS domain controller for
-    '       the current user's domain
+    '       the computer's domain, or the computer is not associated with an AD DS domain
     '   Returns a negative number if an error occurred (i.e., unknown whether the system has
-    '       connectivity to a domain controller for the current user's domain)
-    '
-    ' Note that local user accounts will not have connectivity to the domain, regardless of
-    ' whether or not the computer is joined to a domain. The local SYSTEM account, however, can
-    ' authenticate to the domain since it uses the computer account to authenticate.
+    '       connectivity to a domain controller for the computer's AD DS domain)
     '
     ' Example:
-    '   intDomainConnectivityStatus = TestConnectivityToADDSDomainController()
+    '   intDomainConnectivityStatus = TestBasicConnectivityToAnyADDSDomainControllerForComputersDomain()
     '   If intDomainConnectivityStatus = 1 Then
-    '       ' Computer has connectivity to the current user's AD DS domain
+    '       ' Computer has connectivity to the computer's AD DS domain
     '   ElseIf intDomainConnectivityStatus = 0 Then
-    '       ' Computer does not have connectivity to the current user's AD DS domain
+    '       ' Computer does not have connectivity to the computer's AD DS domain, or the
+    '       ' computer is not associated with an AD DS domain
     '   Else
     '       ' An error occurred
     '   End If
     '
-    ' Version: 1.0.20210115.1
+    ' Version: 1.0.20210115.0
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
@@ -793,28 +790,41 @@ Function TestConnectivityToADDSDomainController()
     'endregion DownloadLocationNotice ####################################################
 
     Dim objADSysInfo
-    Dim strUserDistinguishedName
-    Dim boolReturnCode
+    Dim strComputerDistinguishedName
+    Dim intResult
+    Dim intReturnCode
 
     Err.Clear
 
-    If TestComputerIsPartOfADDSDomain() = 1 Then
-        'Member of a domain
-        Set objADSysInfo = CreateObject("ADSystemInfo")
+    intResult = TestComputerIsPartOfADDSDomain()
+    If intResult = 1 Then
+        'Member of an AD DS domain
         On Error Resume Next
-        ' The following command will fail when there is no connectivity to a domain controller
-        strUserDistinguishedName = objADSysInfo.UserName
+        Set objADSysInfo = CreateObject("ADSystemInfo")
         If Err Then
             Err.Clear
             On Error Goto 0
-            boolReturnCode = False
+            intReturnCode = -2
         Else
-            On Error Goto 0
-            boolReturnCode = True
+            ' The following command will fail when there is no connectivity to an AD DS domain
+            ' controller
+            strComputerDistinguishedName = objADSysInfo.ComputerName
+            If Err Then
+                Err.Clear
+                On Error Goto 0
+                intReturnCode = 0
+            Else
+                On Error Goto 0
+                intReturnCode = 1
+            End If
         End If
+    ElseIf intResult = 0 Then
+        ' If we're a member of a workgroup, then obviously we have no connectivity to the AD DS
+        ' domain
+        intReturnCode = 0
     Else
-        'If we're a member of a workgroup, then obviously we have no connectivity to the domain
-        boolReturnCode = False
+        intReturnCode = -1
     End If
-    TestConnectivityToADDSDomainController = boolReturnCode
+
+    TestBasicConnectivityToAnyADDSDomainControllerForComputersDomain = intReturnCode
 End Function
