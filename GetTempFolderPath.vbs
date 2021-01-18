@@ -223,7 +223,7 @@ Function GetTempFolderPath(ByRef strTempFolderPath)
     ' 64-bit AMD64/Intel x86-64 Windows), then the path to the Windows System folder may be
     ' automatically substituted for the Windows-on-Windows (WOW) equivalent path.
     '
-    ' Version: 1.0.20210118.0
+    ' Version: 1.1.20210118.0
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
@@ -266,7 +266,7 @@ Function GetTempFolderPath(ByRef strTempFolderPath)
     Dim intFunctionReturn
     Dim objFileSystemObject
     Dim objFolder
-    DIm strTempFolderPath
+    Dim strWorkingTempFolderPath
 
     Err.Clear
 
@@ -285,18 +285,18 @@ Function GetTempFolderPath(ByRef strTempFolderPath)
             Err.Clear
             intFunctionReturn = -2
         Else
-            strTempFolderPath = objFolder.Path
+            strWorkingTempFolderPath = objFolder.Path
             If Err Then
                 On Error Goto 0
                 Err.Clear
                 intFunctionReturn = -3
             Else
                 On Error Goto 0
-                If TestObjectForData(strTempFolderPath) = False Then
+                If TestObjectForData(strWorkingTempFolderPath) = False Then
                     intFunctionReturn = -4
                 Else
-                    If Right(strTempFolderPath, 1) <> "\" Then
-                        strTempFolderPath = strTempFolderPath & "\"
+                    If Right(strWorkingTempFolderPath, 1) <> "\" Then
+                        strWorkingTempFolderPath = strWorkingTempFolderPath & "\"
                     End If
                 End If
             End If
@@ -304,7 +304,7 @@ Function GetTempFolderPath(ByRef strTempFolderPath)
     End If
 
     If intFunctionReturn = 0 Then
-        strTempFolderPath = strTempFolderPath
+        strTempFolderPath = strWorkingTempFolderPath
     End If
     
     GetTempFolderPath = intFunctionReturn
