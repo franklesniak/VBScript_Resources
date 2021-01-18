@@ -225,7 +225,7 @@ Function GetWindowsSystemPath(ByRef strWindowsSystemPath)
     ' 64-bit AMD64/Intel x86-64 Windows), then the path to the Windows System folder may be
     ' automatically substituted for the Windows-on-Windows (WOW) equivalent path.
     '
-    ' Version: 1.0.20210118.0
+    ' Version: 1.0.20210118.1
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
@@ -268,7 +268,7 @@ Function GetWindowsSystemPath(ByRef strWindowsSystemPath)
     Dim intFunctionReturn
     Dim objFileSystemObject
     Dim objFolder
-    DIm strTempFolderPath
+    Dim strTempFolderPath
 
     Err.Clear
 

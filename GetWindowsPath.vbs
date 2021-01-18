@@ -217,7 +217,7 @@ Function GetWindowsPath(ByRef strWindowsPath)
     ' which was included in Windows releases beginning with Windows 2000 and Windows ME. It was
     ' available as a separate download for Windows 95, 98, and NT 4.0.
     '
-    ' Version: 1.0.20210118.0
+    ' Version: 1.0.20210118.1
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
@@ -260,7 +260,7 @@ Function GetWindowsPath(ByRef strWindowsPath)
     Dim intFunctionReturn
     Dim objFileSystemObject
     Dim objFolder
-    DIm strTempFolderPath
+    Dim strTempFolderPath
 
     Err.Clear
 
