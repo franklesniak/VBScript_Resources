@@ -202,7 +202,7 @@ Function GetFileProductVersionAsString(ByRef strFileProductVersion, ByVal strFil
     ' Safely obtains the "product version" of a binary file. This is the "product version"
     ' displayed in the properties of the file, details tab, when viewed from Windows Explorer.
     '
-    ' Function takes three positional arguments:
+    ' Function takes two positional arguments:
     '   The first argument (strFileProductVersion) will be the string representation of the
     '       file's product version (whose path is strFilePath).
     '   The second argument (strFilePath) is the path to the file for which we want to know the
@@ -224,7 +224,7 @@ Function GetFileProductVersionAsString(ByRef strFileProductVersion, ByVal strFil
     ' or newer installed, Windows ME, Windows NT 4.0 with Internet Explorer 4.0 installed and
     ' Windows Scripting Host 2.0 or newer installed, Windows 2000, or newer.
     '
-    ' Version: 1.0.20210119.0
+    ' Version: 1.0.20210119.1
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
