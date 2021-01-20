@@ -315,29 +315,3 @@ Function GetFileVersionAsString(ByRef strFileVersion, ByVal strFilePath)
     
     GetFileVersionAsString = intFunctionReturn
 End Function
-
-strFilePath = "C:\Windows\System32\ntoskrnl.exe"
-intReturnCode = GetFileVersionAsString(strFileVersion, strFilePath)
-WScript.Echo intReturnCode
-WScript.Echo strFileVersion
-
-' Windows 9x OS Kernel:
-strFilePath = "C:\Windows\System\krnl386.exe"
-intReturnCode = GetFileVersionAsString(strFileVersion, strFilePath)
-WScript.Echo intReturnCode
-WScript.Echo strFileVersion
-
-strFilePath = "C:\Windows\System32\kernel32.dll"
-intReturnCode = GetFileVersionAsString(strFileVersion, strFilePath)
-WScript.Echo intReturnCode
-WScript.Echo strFileVersion
-
-strFilePath = "C:\Windows\System32\ntdll.dll"
-intReturnCode = GetFileVersionAsString(strFileVersion, strFilePath)
-WScript.Echo intReturnCode
-WScript.Echo strFileVersion
-
-strFilePath = "C:\Windows\System32\hal.dll"
-intReturnCode = GetFileVersionAsString(strFileVersion, strFilePath)
-WScript.Echo intReturnCode
-WScript.Echo strFileVersion
