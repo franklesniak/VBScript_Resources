@@ -224,7 +224,7 @@ Function GetFileProductVersionAsString(ByRef strFileProductVersion, ByVal strFil
     ' or newer installed, Windows ME, Windows NT 4.0 with Internet Explorer 4.0 installed and
     ' Windows Scripting Host 2.0 or newer installed, Windows 2000, or newer.
     '
-    ' Version: 1.0.20210119.1
+    ' Version: 1.1.20210119.0
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
@@ -416,6 +416,9 @@ Function GetFileProductVersionAsString(ByRef strFileProductVersion, ByVal strFil
                 intFunctionReturn = intFunctionReturn + (-2 * intReturnMultiplier)
             Else
                 On Error Goto 0
+                If TestObjectForData(strWorkingFileProductVersion) = False Then
+                    intFunctionReturn = intFunctionReturn + (-3 * intReturnMultiplier)
+                End If
             End If
         End If
     End If
