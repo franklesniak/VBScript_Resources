@@ -229,8 +229,9 @@ Function ConvertWindowsRegistryHiveAndPathToSeparateRegistryHiveAndPath(ByRef st
     '           "HKCU" or "HKEY_CURRENT_USER"
     '           "HKLM" or "HKEY_LOCAL_MACHINE"
     '           "HKDU" or "HKEY_DEFAULT_USER" - a "fake" registry hive that references the
-    '               default user profile's HKCU registry hive. The function automatically
-    '               mounts and dismounts this registry hive if it is specified.
+    '               default user profile's HKCU registry hive. This designation was created by
+    '               the function author to facilitate downstream processing, i.e., automatic
+    '               mounting and dismounting of the default user profile's HKCU registry hive
     '           "HKCR" or "HKEY_CLASSES_ROOT" - a "fake" registry hive that represents a
     '               joining of HKCU\Software\Classes and HKLM\Software\Classes. Per Wikipedia,
     '               if a given value exists in both HKCU\Software\Classes and
@@ -244,9 +245,9 @@ Function ConvertWindowsRegistryHiveAndPathToSeparateRegistryHiveAndPath(ByRef st
     '       For example, a valid specifiication for this third argument would be:
     '       "HKLM\Software\Microsoft\Windows"
     '
-    ' The function returns 0 or a positive number if the full registry path was successfully
-    ' converted into its respective hive/path parts. A negative number is returned if the
-    ' registry path was invalid and could not be converted.
+    ' The function returns 0 if the full registry path was successfully converted into its
+    ' respective hive/path parts. A negative number is returned if the registry path was
+    ' invalid and could not be converted.
     '
     ' Example:
     '   intReturnCode = ConvertWindowsRegistryHiveAndPathToSeparateRegistryHiveAndPath(strHive, strPathOnly, "HKLM\Software\Microsoft\Windows")
@@ -256,7 +257,7 @@ Function ConvertWindowsRegistryHiveAndPathToSeparateRegistryHiveAndPath(ByRef st
     '       ' strPathOnly contains "Software\Microsoft\Windows"
     '   End If
     '
-    ' Version: 1.0.20210122.0
+    ' Version: 2.0.20210122.1
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
