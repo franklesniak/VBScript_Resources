@@ -208,8 +208,9 @@ Function ConvertWindowsRegistryHiveAndPathToSeparateRegistryHiveAndPath(ByRef st
     '           "HKEY_CURRENT_USER"
     '           "HKEY_LOCAL_MACHINE"
     '           "HKEY_DEFAULT_USER" - a "fake" registry hive that references the default user
-    '               profile's HKCU registry hive. The function automatically mounts and
-    '               dismounts this registry hive if it is specified.
+    '               profile's HKCU registry hive. This designation was created by the function
+    '               author to facilitate downstream processing, i.e., automatic mounting and
+    '               dismounting of the default user profile's HKCU registry hive.
     '           "HKEY_CLASSES_ROOT" - a "fake" registry hive that represents a joining of
     '               HKCU\Software\Classes and HKLM\Software\Classes. Per Wikipedia, if a given
     '               value exists in both HKCU\Software\Classes and HKLM\Software\Classes, the
@@ -231,7 +232,7 @@ Function ConvertWindowsRegistryHiveAndPathToSeparateRegistryHiveAndPath(ByRef st
     '           "HKDU" or "HKEY_DEFAULT_USER" - a "fake" registry hive that references the
     '               default user profile's HKCU registry hive. This designation was created by
     '               the function author to facilitate downstream processing, i.e., automatic
-    '               mounting and dismounting of the default user profile's HKCU registry hive
+    '               mounting and dismounting of the default user profile's HKCU registry hive.
     '           "HKCR" or "HKEY_CLASSES_ROOT" - a "fake" registry hive that represents a
     '               joining of HKCU\Software\Classes and HKLM\Software\Classes. Per Wikipedia,
     '               if a given value exists in both HKCU\Software\Classes and
@@ -257,7 +258,7 @@ Function ConvertWindowsRegistryHiveAndPathToSeparateRegistryHiveAndPath(ByRef st
     '       ' strPathOnly contains "Software\Microsoft\Windows"
     '   End If
     '
-    ' Version: 2.0.20210122.1
+    ' Version: 2.0.20210122.2
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
