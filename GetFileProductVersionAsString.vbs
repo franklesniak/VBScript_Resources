@@ -224,7 +224,7 @@ Function GetFileProductVersionAsString(ByRef strFileProductVersion, ByVal strFil
     ' or newer installed, Windows ME, Windows NT 4.0 with Internet Explorer 4.0 installed and
     ' Windows Scripting Host 2.0 or newer installed, Windows 2000, or newer.
     '
-    ' Version: 1.1.20210119.0
+    ' Version: 1.2.20210127.0
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
@@ -392,7 +392,7 @@ Function GetFileProductVersionAsString(ByRef strFileProductVersion, ByVal strFil
         intHeaderNumberForProductVersion = -1
         For intCounter = 0 To MAXINT
             On Error Resume Next
-            strHeaderName = objShell32GlobalFolder.GetDetailsOf(objShell32GlobalFolder.Items, intCounter)
+            strHeaderName = objShell32GlobalFolder.GetDetailsOf(Null, intCounter)
             If Err Then
                 Err.Clear
             End If
