@@ -226,7 +226,7 @@ Function ReadCharactersFromFile(ByRef strData, ByVal strPathToFile, ByVal lngMax
     '       ' strData contains the characters read from the file
     '   End If
     '
-    ' Version: 1.1.20210129.0
+    ' Version: 1.2.20210130.0
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
@@ -352,6 +352,7 @@ Function ReadCharactersFromFile(ByRef strData, ByVal strPathToFile, ByVal lngMax
                             On Error Goto 0
                             intFunctionReturn = -8
                             boolBreakOut = True
+                            boolTest = False
                         End If
                     End If
                     lngCounter = lngCounter + 1
@@ -364,7 +365,17 @@ Function ReadCharactersFromFile(ByRef strData, ByVal strPathToFile, ByVal lngMax
                         boolTest = False
                     End If
                 Wend
-                On Error Goto 0
+                If Err Then
+                    Err.Clear
+                End If
+                On Error Resume Next
+                textStreamObjectSource.Close
+                If Err Then
+                    On Error Goto 0
+                    Err.Clear
+                Else
+                    On Error Goto 0
+                End If
             End If
         End If
     End If
@@ -375,4 +386,3 @@ Function ReadCharactersFromFile(ByRef strData, ByVal strPathToFile, ByVal lngMax
 
     ReadCharactersFromFile = intFunctionReturn
 End Function
-    
