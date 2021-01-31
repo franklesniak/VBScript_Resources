@@ -492,13 +492,13 @@ Function TestWindowsRegistryKeyShouldRedirectWithWinRegDotHIntegerHiveAndOSVersi
     '
     ' Example:
     '   Const HKEY_LOCAL_MACHINE = &H80000002
-    '   intReturnCode = TestWindowsRegistryKeyShouldRedirectWithWinRegDotHIntegerHiveAndOSVersionNumber(boolRedirect, &H80000002, "SOFTWARE\Microsoft", "6.1.7601")
+    '   intReturnCode = TestWindowsRegistryKeyShouldRedirectWithWinRegDotHIntegerHiveAndOSVersionNumber(boolRedirect, HKEY_LOCAL_MACHINE, "SOFTWARE\Microsoft", "6.1.7601")
     '   If intReturnCode = 0 Then
     '       ' Registry key was tested successfully
     '       ' boolRedirect is set to True because HKLM\SOFTWARE\Microsoft should redirect
     '   End If
     '
-    ' Version: 1.0.20210124.0
+    ' Version: 1.0.20210131.0
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
