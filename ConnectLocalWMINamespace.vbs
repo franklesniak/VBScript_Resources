@@ -391,7 +391,7 @@ Function ConnectLocalWMINamespace(ByRef objSWbemServicesWMINamespace, ByVal strT
     '       Next
     '   End If
     '
-    ' Version: 2.1.20210201.0
+    ' Version: 2.2.20210201.0
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
@@ -536,7 +536,7 @@ Function ConnectLocalWMINamespace(ByRef objSWbemServicesWMINamespace, ByVal strT
         If TestObjectForData(objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth) = True Then
             ' objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth parameter
             ' was supplied
-            If VarType(objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth) = 2 Then
+            If VarType(objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth) = 2 Or VarType(objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth) = 3 Then
                 ' objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth is an
                 ' integer
                 ' objSWbemNamedValueSetContext already constructed
