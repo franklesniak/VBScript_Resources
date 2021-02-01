@@ -221,7 +221,7 @@ Function NewWMIBitWidthContext(ByRef objSWbemNamedValueSetContext, ByVal intTarg
     '       ' context.
     '   End If
     '
-    ' Version: 1.0.20210115.0
+    ' Version: 1.1.20210201.0
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
@@ -259,7 +259,7 @@ Function NewWMIBitWidthContext(ByRef objSWbemNamedValueSetContext, ByVal intTarg
     If TestObjectForData(intTargetWMIProviderArchitectureBitWidth) = False Then
         intReturnCode = -1
     Else
-        If VarType(intTargetWMIProviderArchitectureBitWidth) <> 2 Then
+        If VarType(intTargetWMIProviderArchitectureBitWidth) <> 2 And VarType(intTargetWMIProviderArchitectureBitWidth) <> 3 Then
             intReturnCode = -2
         End If
     End If
