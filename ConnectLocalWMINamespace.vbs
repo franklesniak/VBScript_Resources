@@ -197,6 +197,105 @@ Function TestObjectForData(ByVal objToCheck)
     TestObjectForData = boolFunctionReturn
 End Function
 
+Function TestObjectIsAnyTypeOfInteger(ByRef objToTest)
+    'region FunctionMetadata ####################################################
+    ' Safely determines if the specified object is an integer (of any kind)
+    '
+    ' Function takes one positional argument (objToTest), which is the object to be tested to
+    '   determine if it is an integer number.
+    '
+    ' The function returns boolean True if the specified object is an integer number, boolean
+    ' False otherwise
+    '
+    ' Example 1:
+    '   objToTest = "12345"
+    '   boolResult = TestObjectIsAnyTypeOfInteger(objToTest)
+    '   ' boolResult is equal to False
+    '
+    ' Example 2:
+    '   objToTest = 0
+    '   boolResult = TestObjectIsAnyTypeOfInteger(objToTest)
+    '   ' boolResult is equal to True
+    '
+    ' Example 3:
+    '   objToTest = 12345
+    '   boolResult = TestObjectIsAnyTypeOfInteger(objToTest)
+    '   ' boolResult is equal to True
+    '
+    ' Example 4:
+    '   objToTest = 12345.678
+    '   boolResult = TestObjectIsAnyTypeOfInteger(objToTest)
+    '   ' boolResult is equal to False
+    '
+    ' Example 5:
+    '   objToTest = True
+    '   boolResult = TestObjectIsAnyTypeOfInteger(objToTest)
+    '   ' boolResult is equal to False
+    '
+    ' Version: 1.0.20210220.0
+    'endregion FunctionMetadata ####################################################
+
+    'region License ####################################################
+    ' Copyright 2021 Frank Lesniak
+    '
+    ' Permission is hereby granted, free of charge, to any person obtaining a copy of this
+    ' software and associated documentation files (the "Software"), to deal in the Software
+    ' without restriction, including without limitation the rights to use, copy, modify, merge,
+    ' publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+    ' persons to whom the Software is furnished to do so, subject to the following conditions:
+    '
+    ' The above copyright notice and this permission notice shall be included in all copies or
+    ' substantial portions of the Software.
+    '
+    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+    ' INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+    ' PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+    ' FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+    ' OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    ' DEALINGS IN THE SOFTWARE.
+    'endregion License ####################################################
+
+    'region DownloadLocationNotice ####################################################
+    ' The most up-to-date version of this script can be found on the author's GitHub repository
+    ' at https://github.com/franklesniak/VBScript_Resources
+    'endregion DownloadLocationNotice ####################################################
+
+    Dim boolFunctionReturn
+    Dim boolTest
+    Dim intVarType
+
+    If TestObjectForData(objToTest) = False Then
+        boolFunctionReturn = False
+    Else
+        ' objToTest has data
+        On Error Resume Next
+        intVarType = VarType(objToTest)
+        If Err Then
+            On Error Goto 0
+            Err.Clear
+            boolFunctionReturn = False
+        Else
+            boolTest = (intVarType <> 2 And intVarType <> 3)
+            If Err Then
+                On Error Goto 0
+                Err.Clear
+                boolFunctionReturn = False
+            Else
+                On Error Goto 0
+                If boolTest = True Then
+                    ' VarType(objToTest) <> 2 And VarType(objToTest) <> 3
+                    boolFunctionReturn = False
+                Else
+                    ' VarType(objToTest) = 2 Or VarType(objToTest) = 3
+                    boolFunctionReturn = True
+                End If
+            End If
+        End If
+    End If
+
+    TestObjectIsStringContainingData = boolFunctionReturn
+End Function
+
 Function NewWMIBitWidthContext(ByRef objSWbemNamedValueSetContext, ByVal intTargetWMIProviderArchitectureBitWidth)
     'region FunctionMetadata ####################################################
     ' Safely creates a SWbemNamedValueSet object for use with setting the bit-width "context"
@@ -221,7 +320,7 @@ Function NewWMIBitWidthContext(ByRef objSWbemNamedValueSetContext, ByVal intTarg
     '       ' context.
     '   End If
     '
-    ' Version: 1.1.20210201.0
+    ' Version: 1.1.20210220.0
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
@@ -256,34 +355,27 @@ Function NewWMIBitWidthContext(ByRef objSWbemNamedValueSetContext, ByVal intTarg
 
     intReturnCode = 0
 
-    If TestObjectForData(intTargetWMIProviderArchitectureBitWidth) = False Then
+    If TestObjectIsAnyTypeOfInteger(intTargetWMIProviderArchitectureBitWidth) = False Then
         intReturnCode = -1
     Else
-        If VarType(intTargetWMIProviderArchitectureBitWidth) <> 2 And VarType(intTargetWMIProviderArchitectureBitWidth) <> 3 Then
-            intReturnCode = -2
-        End If
-    End If
-
-    If intReturnCode = 0 Then
-        ' No error occurred
         On Error Resume Next
         Set objSWbemNamedValueSetTemp = CreateObject("WbemScripting.SWbemNamedValueSet")
         If Err Then
             On Error Goto 0
             Err.Clear
-            intReturnCode = -3
+            intReturnCode = -2
         Else
             objSWbemNamedValueSetTemp.Add "__ProviderArchitecture", intTargetWMIProviderArchitectureBitWidth
             If Err Then
                 On Error Goto 0
                 Err.Clear
-                intReturnCode = -4
+                intReturnCode = -3
             Else
                 objSWbemNamedValueSetTemp.Add "__RequiredArchitecture", True
                 If Err Then
                     On Error Goto 0
                     Err.Clear
-                    intReturnCode = -5
+                    intReturnCode = -4
                 Else
                     On Error Goto 0
                 End If
@@ -301,19 +393,19 @@ Function NewWMIBitWidthContext(ByRef objSWbemNamedValueSetContext, ByVal intTarg
         If Err Then
             On Error Goto 0
             Err.Clear
-            intReturnCode = -6
+            intReturnCode = -5
         Else
             objSWbemNamedValueSetContext.Add "__ProviderArchitecture", intTargetWMIProviderArchitectureBitWidth
             If Err Then
                 On Error Goto 0
                 Err.Clear
-                intReturnCode = -7
+                intReturnCode = -6
             Else
                 objSWbemNamedValueSetContext.Add "__RequiredArchitecture", True
                 If Err Then
                     On Error Goto 0
                     Err.Clear
-                    intReturnCode = -8
+                    intReturnCode = -7
                 Else
                     On Error Goto 0
                 End If
@@ -391,7 +483,7 @@ Function ConnectLocalWMINamespace(ByRef objSWbemServicesWMINamespace, ByVal strT
     '       Next
     '   End If
     '
-    ' Version: 2.2.20210201.0
+    ' Version: 2.2.20210220.0
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
@@ -454,7 +546,7 @@ Function ConnectLocalWMINamespace(ByRef objSWbemServicesWMINamespace, ByVal strT
         If TestObjectForData(objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth) = True Then
             ' objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth parameter
             ' was supplied
-            If VarType(objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth) = 2 Or VarType(objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth) = 3 Then
+            If TestObjectIsAnyTypeOfInteger(objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth) = True Then
                 ' objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth is an
                 ' integer
                 On Error Resume Next
@@ -536,7 +628,7 @@ Function ConnectLocalWMINamespace(ByRef objSWbemServicesWMINamespace, ByVal strT
         If TestObjectForData(objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth) = True Then
             ' objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth parameter
             ' was supplied
-            If VarType(objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth) = 2 Or VarType(objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth) = 3 Then
+            If TestObjectIsAnyTypeOfInteger(objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth) = True Then
                 ' objSWbemNamedValueSetContextOrIntTargetWMIProviderArchitectureBitWidth is an
                 ' integer
                 ' objSWbemNamedValueSetContext already constructed
