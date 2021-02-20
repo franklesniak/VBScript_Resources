@@ -197,6 +197,95 @@ Function TestObjectForData(ByVal objToCheck)
     TestObjectForData = boolFunctionReturn
 End Function
 
+Function TestObjectIsStringContainingData(ByRef objToTest)
+    'region FunctionMetadata ####################################################
+    ' Safely determines if the specified object is a string or not
+    '
+    ' Function takes one positional argument (objToTest), which is the object to be tested to
+    '   determine if it is a string.
+    '
+    ' The function returns boolean True if the specified object is a string that contains data,
+    ' boolean False otherwise
+    '
+    ' Example 1:
+    '   objToTest = "12345"
+    '   boolResult = TestObjectIsStringContainingData(objToTest)
+    '   ' boolResult is equal to True
+    '
+    ' Example 2:
+    '   objToTest = ""
+    '   boolResult = TestObjectIsStringContainingData(objToTest)
+    '   ' boolResult is equal to False
+    '
+    ' Example 3:
+    '   objToTest = 12345
+    '   boolResult = TestObjectIsStringContainingData(objToTest)
+    '   ' boolResult is equal to False
+    '
+    ' Version: 1.0.20210220.0
+    'endregion FunctionMetadata ####################################################
+
+    'region License ####################################################
+    ' Copyright 2021 Frank Lesniak
+    '
+    ' Permission is hereby granted, free of charge, to any person obtaining a copy of this
+    ' software and associated documentation files (the "Software"), to deal in the Software
+    ' without restriction, including without limitation the rights to use, copy, modify, merge,
+    ' publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+    ' persons to whom the Software is furnished to do so, subject to the following conditions:
+    '
+    ' The above copyright notice and this permission notice shall be included in all copies or
+    ' substantial portions of the Software.
+    '
+    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+    ' INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+    ' PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+    ' FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+    ' OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    ' DEALINGS IN THE SOFTWARE.
+    'endregion License ####################################################
+
+    'region DownloadLocationNotice ####################################################
+    ' The most up-to-date version of this script can be found on the author's GitHub repository
+    ' at https://github.com/franklesniak/VBScript_Resources
+    'endregion DownloadLocationNotice ####################################################
+
+    Dim boolFunctionReturn
+    Dim boolTest
+    Dim intVarType
+
+    If TestObjectForData(objToTest) = False Then
+        boolFunctionReturn = False
+    Else
+        ' objToTest has data
+        On Error Resume Next
+        intVarType = VarType(objToTest)
+        If Err Then
+            On Error Goto 0
+            Err.Clear
+            boolFunctionReturn = False
+        Else
+            boolTest = (intVarType <> 8)
+            If Err Then
+                On Error Goto 0
+                Err.Clear
+                boolFunctionReturn = False
+            Else
+                On Error Goto 0
+                If boolTest = True Then
+                    ' VarType(objToTest) <> 8
+                    boolFunctionReturn = False
+                Else
+                    ' VarType(objToTest) = 8
+                    boolFunctionReturn = True
+                End If
+            End If
+        End If
+    End If
+
+    TestObjectIsStringContainingData = boolFunctionReturn
+End Function
+
 Function ConvertWindowsRegistryHiveAndPathToSeparateRegistryHiveAndPath(ByRef strRegistryHiveName, ByRef strRegistryPathWithoutHive, ByVal strPathToRegKey)
     'region FunctionMetadata ####################################################
     ' Safely takes a string that contains a registry hive and path and converts it to a
@@ -258,7 +347,7 @@ Function ConvertWindowsRegistryHiveAndPathToSeparateRegistryHiveAndPath(ByRef st
     '       ' strPathOnly contains "Software\Microsoft\Windows"
     '   End If
     '
-    ' Version: 2.0.20210122.2
+    ' Version: 2.0.20210220.0
     'endregion FunctionMetadata ####################################################
 
     'region License ####################################################
@@ -307,37 +396,23 @@ Function ConvertWindowsRegistryHiveAndPathToSeparateRegistryHiveAndPath(ByRef st
 
     intFunctionReturn = 0
 
-    If TestObjectForData(strPathToRegKey) = False Then
+    If TestObjectIsStringContainingData(strPathToRegKey) = False Then
         intFunctionReturn = -1
     Else
         On Error Resume Next
-        intVariableType = VarType(strPathToRegKey)
+        arrRegistryPath = Split(strPathToRegKey, REG_PATH_SEPARATOR)
         If Err Then
             On Error Goto 0
             Err.Clear
             intFunctionReturn = -2
         Else
-            On Error Goto 0
-            If intVariableType <> 8 Then
-                'Was not a string
+            intUpperBound = UBound(arrRegistryPath)
+            If Err Then
+                On Error Goto 0
+                Err.Clear
                 intFunctionReturn = -3
             Else
-                On Error Resume Next
-                arrRegistryPath = Split(strPathToRegKey, REG_PATH_SEPARATOR)
-                If Err Then
-                    On Error Goto 0
-                    Err.Clear
-                    intFunctionReturn = -4
-                Else
-                    intUpperBound = UBound(arrRegistryPath)
-                    If Err Then
-                        On Error Goto 0
-                        Err.Clear
-                        intFunctionReturn = -5
-                    Else
-                        On Error Goto 0
-                    End If
-                End If
+                On Error Goto 0
             End If
         End If
     End If
@@ -348,7 +423,7 @@ Function ConvertWindowsRegistryHiveAndPathToSeparateRegistryHiveAndPath(ByRef st
         ' arrRegistryPath is the split of strPathToRegKey on "\"
         ' intUpperBound is the upper index of arrRegistryPath
         If intUpperBound < 1 Then
-            intFunctionReturn = -6
+            intFunctionReturn = -4
         Else
             Select Case UCase(arrRegistryPath(0))
                 Case "HKCU"
@@ -384,7 +459,7 @@ Function ConvertWindowsRegistryHiveAndPathToSeparateRegistryHiveAndPath(ByRef st
                 Case "HKEY_PERFORMANCE_DATA"
                     strRegistryHiveStaging = "HKEY_PERFORMANCE_DATA"
                 Case Else
-                    intFunctionReturn = -7
+                    intFunctionReturn = -5
             End Select
         End If
     End If
@@ -400,7 +475,7 @@ Function ConvertWindowsRegistryHiveAndPathToSeparateRegistryHiveAndPath(ByRef st
             intCounter = intCounter + 1
         Wend
         If intCounter > intUpperBound Then
-            intFunctionReturn = -8
+            intFunctionReturn = -6
         Else
             strRegistryPathStaging = arrRegistryPath(intCounter)
             For intCounterB = intCounter + 1 To intUpperBound
